@@ -23,7 +23,7 @@ void Lifx::handle() {
     }   
 }
 
-void processPacket(byte *packet, int packetSize, LifxMessage &message) {
+void Lifx::processPacket(byte *packet, int packetSize, LifxMessage &message) {
     message.size = packet[0] + (packet[1] << 8);
     
     // TODO: could be wrong
@@ -76,3 +76,5 @@ void processPacket(byte *packet, int packetSize, LifxMessage &message) {
 
     message.payload_size = i;
 }
+
+void Lifx::handleMessage(LifxMessage lifxMessage) {}
