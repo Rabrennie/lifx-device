@@ -1,4 +1,5 @@
 #include "Lifx.h"
+#include <Arduino.h>
 
 Lifx::Lifx(LifxDevice *device)
 {
@@ -51,15 +52,14 @@ void Lifx::processPacket(byte *packet, int packetSize, LifxMessage &message)
 
 void Lifx::handleMessage(LifxMessage message)
 {
-
-  if (message.tagged != 1 && message.target != device->getMacAddress())
+  if (message.tagged == 0 && memcmp(message.target, this->device->getMacAddress(), 8) == 0)
   {
     return;
   }
 
   if (message.type == GET_SERVICE)
   {
-    LifxMessage response = new LifxMessage();
+    LifxMessage response;
     response.type = STATE_SERVICE;
     response.protocol = LIFX_PROTOCOL;
     byte stateServiceData[] = {
@@ -69,15 +69,15 @@ void Lifx::handleMessage(LifxMessage message)
         0x00,
         0x00};
 
-    memcpy(response.data, stateServiceData, sizeof(stateServiceData));
-    response.data_size = sizeof(stateServiceData);
+    memcpy(response.payload, stateServiceData, sizeof(stateServiceData));
+    response.payload_size = sizeof(stateServiceData);
     this->sendMessage(response, true);
   }
 }
 
+// TODO: refactor
 void Lifx::sendMessage(LifxMessage &message, bool broadcast)
 {
-  // broadcast packet on local subnet
   IPAddress remote_addr(Udp.remoteIP());
 
   if (broadcast)
@@ -86,7 +86,53 @@ void Lifx::sendMessage(LifxMessage &message, bool broadcast)
   }
 
   Udp.beginPacket(remote_addr, Udp.remotePort());
-  // do packet stuff
+
+  // size
+  Udp.write(lowByte(LIFX_PACKET_HEADER_LENGTH + message.payload_size));
+  Udp.write(highByte(LIFX_PACKET_HEADER_LENGTH + message.payload_size));
+
+  // protocol, addressable, tagged, origin
+  uint16_t test = (message.protocol + (message.addressable << 12) + (message.tagged << 13) + (message.origin << 14)) >> 8;
+  Udp.write(lowByte(test));
+  Udp.write(highByte(test));
+
+  // source
+  unsigned char *source = (unsigned char *)&message.source;
+  Udp.write(source[0]);
+  Udp.write(source[1]);
+  Udp.write(source[2]);
+  Udp.write(source[3]);
+
+  // target
+  Udp.write(this->device->getMacAddress(), 8);
+
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
+
+  // ack and res
+  Udp.write(message.ack_required + message.res_required);
+
+  Udp.write(message.sequence);
+
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
+
+  Udp.write(lowByte(message.type));
+  Udp.write(highByte(message.type));
+
+  for(int i = 0; i < message.payload_size; i++) {
+    Udp.write(lowByte(message.payload[i]));
+  }
 
   Udp.endPacket();
 }
