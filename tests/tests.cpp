@@ -5,12 +5,22 @@
 #include <gtest/gtest.h>
 
 class test : public LifxDevice {
-    test() {}
+    public:
+        test() {}
+        ~test() {}
+
+        void getState(){}
+
+        void setColor(){}
+        void setPower(){}
+        void setWaveform(){}
+        void setWaveformOptional(){}
+        void setInfrared(){}
 };
 
 TEST(Lifx, Costructor) { 
     test mockDevice();
-    LifxDevice *device = new LifxDevice();
+    LifxDevice *device = new test();
     Lifx *lifx = new Lifx(device);
 }
 

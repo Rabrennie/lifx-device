@@ -8,13 +8,13 @@ class LifxDevice {
         void addCapability();
         void getCapabilities();
 
-        void getState();
+        virtual void getState() = 0;
 
-        void setColor();
-        void setPower();
-        void setWaveform();
-        void setWaveformOptional();
-        void setInfrared();
+        virtual void setColor() = 0;
+        virtual void setPower() = 0;
+        virtual void setWaveform() = 0;
+        virtual void setWaveformOptional() = 0;
+        virtual void setInfrared() = 0;
 };
 
 #endif
