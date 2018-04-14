@@ -41,7 +41,3 @@ static byte const STATE_GROUP = 0x35;
 
 static byte const ECHO_REQUEST = 0x3A;
 static byte const ECHO_RESPONSE = 0x3B;
-
-
-
-
