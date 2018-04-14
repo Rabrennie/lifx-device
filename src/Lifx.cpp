@@ -57,6 +57,8 @@ void Lifx::handleMessage(LifxMessage message)
     return;
   }
 
+  Serial.println(message.type, HEX);
+
   if (message.type == GET_SERVICE)
   {
     LifxMessage response;
@@ -71,6 +73,25 @@ void Lifx::handleMessage(LifxMessage message)
 
     memcpy(response.payload, stateServiceData, sizeof(stateServiceData));
     response.payload_size = sizeof(stateServiceData);
+    this->sendMessage(response, true);
+  }
+
+  if (message.type == GET_WIFI_FIRMWARE)
+  {
+    LifxMessage response;
+    response.type = STATE_WIFI_FIRMWARE;
+    response.protocol = LIFX_PROTOCOL;
+
+    byte WifiVersionData[] = {
+        0x00, 0x70, 0xA6, 0xC7, 0x74, 0xF0, 0xDA, 0x13, //build timestamp
+        0xc0, 0x0c, 0x07, 0x00, 0x48, 0x46, 0xd9, 0x43, //install timestamp
+        lowByte(1),
+        highByte(1),
+        lowByte(2),
+        highByte(2)};
+
+    memcpy(response.payload, WifiVersionData, sizeof(WifiVersionData));
+    response.payload_size = sizeof(WifiVersionData);
     this->sendMessage(response, true);
   }
 }
@@ -130,7 +151,8 @@ void Lifx::sendMessage(LifxMessage &message, bool broadcast)
   Udp.write(lowByte(message.type));
   Udp.write(highByte(message.type));
 
-  for(int i = 0; i < message.payload_size; i++) {
+  for (int i = 0; i < message.payload_size; i++)
+  {
     Udp.write(lowByte(message.payload[i]));
   }
 
