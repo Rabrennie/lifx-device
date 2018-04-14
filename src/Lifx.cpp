@@ -50,7 +50,7 @@ void processPacket(byte *packet, int packetSize, LifxMessage &message) {
         packet[14],
         packet[15] 
     };
-    memcpy(message.target, target, 8;
+    memcpy(message.target, target, 8);
 
     byte reserved[] = {
         packet[16],
