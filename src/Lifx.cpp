@@ -9,11 +9,9 @@ void Lifx::begin() {
 }
 
 void Lifx::handle() {
-    // do other stuff
-    byte packet[LIFX_PACKET_LENGTH];
-
     int packetSize = this->Udp.parsePacket();
     if(packetSize) {
+        byte packet[LIFX_PACKET_LENGTH];
         this->Udp.read(packet, LIFX_PACKET_LENGTH);
 
         LifxMessage message;
@@ -42,8 +40,14 @@ void Lifx::processPacket(byte *packet, int packetSize, LifxMessage &message) {
 
     message.type = packet[32] + (packet[33] << 8);
 
-    memcpy(message.payload, packet+36, packetSize-36);
     message.payload_size = packetSize-36;
+    memcpy(message.payload, packet+36, message.payload_size);
 }
 
-void Lifx::handleMessage(LifxMessage lifxMessage) {}
+void Lifx::handleMessage(LifxMessage message) {
+
+    if(message.tagged != 1 && message.target != device->getMacAddress()) {
+        return;
+    }
+
+}
