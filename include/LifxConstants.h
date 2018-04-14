@@ -6,7 +6,8 @@ typedef uint8_t byte;
 
 // settings
 static int const LIFX_PORT = 56700;
-static int const LIFX_PACKET_LENGTH = 128;
+static int const LIFX_PACKET_HEADER_LENGTH = 36;
+static int const LIFX_PACKET_MAX_LENGTH = 128;
 
 // Device Message Types - https://lan.developer.lifx.com/docs/device-messages
 static byte const GET_SERVICE = 0x02;
