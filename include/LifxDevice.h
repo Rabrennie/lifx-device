@@ -1,5 +1,5 @@
-#ifndef LifxDevice_H
-#define LifxDevice_H
+#ifndef LIFX_DEVICE_HEADER
+#define LIFX_DEVICE_HEADER
 
 class LifxDevice {
     public:

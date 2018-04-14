@@ -1,3 +1,5 @@
+#ifndef LIFX_CONSTANTS_HEADER
+#define LIFX_CONSTANTS_HEADER
 
 // Device Message Types - https://lan.developer.lifx.com/docs/device-messages
 static byte const GET_SERVICE = 0x02;
@@ -41,3 +43,5 @@ static byte const STATE_GROUP = 0x35;
 
 static byte const ECHO_REQUEST = 0x3A;
 static byte const ECHO_RESPONSE = 0x3B;
+
+#endif

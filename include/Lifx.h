@@ -1,3 +1,6 @@
+#ifndef LIFX_HEADER
+#define LIFX_HEADER
+
 #include "LifxDevice.h"
 
 class Lifx {
@@ -11,3 +14,5 @@ class Lifx {
 
         void setColor();
 };
+
+#endif
