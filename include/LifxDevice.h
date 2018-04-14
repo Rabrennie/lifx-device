@@ -4,12 +4,16 @@
 class LifxDevice {
     public:
         LifxDevice();
+        byte mac[8] = {
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x7
+        };
 
         void addCapability();
         void getCapabilities();
+        byte * getMacAddress() = 0;
 
         virtual void getState() = 0;
-
+        
         virtual void setColor() = 0;
         virtual void setPower() = 0;
         virtual void setWaveform() = 0;
