@@ -1,6 +1,9 @@
 #ifndef LIFX_MESSAGE_HEADER
 #define LIFX_MESSAGE_HEADER
 
+#include <stdint.h>
+typedef uint8_t byte;
+
 struct LifxMessage {
     /* frame */
   uint16_t size;
@@ -8,10 +11,10 @@ struct LifxMessage {
   uint8_t  addressable:1;
   uint8_t  tagged:1;
   uint8_t  origin:2;
-  uint32_t source;
+  byte source[4];
   /* frame address */
-  uint8_t  target[8];
-  uint8_t  reserved[6];
+  byte  target[8];
+  byte  reserved[6];
   uint8_t  res_required:1;
   uint8_t  ack_required:1;
   uint8_t  :6;
