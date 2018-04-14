@@ -1,5 +1,7 @@
 #ifndef LIFX_DEVICE_HEADER
 #define LIFX_DEVICE_HEADER
+#include <stdint.h>
+typedef uint8_t byte;
 
 class LifxDevice {
     public:
@@ -10,10 +12,10 @@ class LifxDevice {
 
         void addCapability();
         void getCapabilities();
-        byte * getMacAddress() = 0;
+        byte * getMacAddress();
 
         virtual void getState() = 0;
-        
+
         virtual void setColor() = 0;
         virtual void setPower() = 0;
         virtual void setWaveform() = 0;
