@@ -26,11 +26,10 @@ void Lifx::handle() {
 void Lifx::processPacket(byte *packet, int packetSize, LifxMessage &message) {
     message.size = packet[0] + (packet[1] << 8);
     
-    // TODO: could be wrong
-    message.protocol = (packet[2] + (packet[3] << 8)) & 0x400;
-    message.addressable = (packet[2] + (packet[3] << 8)) & 0x03;
-    message.tagged = (packet[2] + (packet[3] << 8)) & 0x04;
-    message.origin = (packet[2] + (packet[3] << 8)) & 0x08;
+    message.protocol = (packet[2] + (packet[3] << 8)) & 0x7FF;
+    message.addressable = ((packet[2] + (packet[3] << 8)) & 0x1000) >> 12;
+    message.tagged = ((packet[2] + (packet[3] << 8)) & 0x2000) >> 13;
+    message.origin = ((packet[2] + (packet[3] << 8)) & 0xC000) >> 14;
 
     byte source[] = {
         packet[4],
