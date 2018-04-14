@@ -31,35 +31,9 @@ void Lifx::processPacket(byte *packet, int packetSize, LifxMessage &message) {
     message.tagged = ((packet[2] + (packet[3] << 8)) & 0x2000) >> 13;
     message.origin = ((packet[2] + (packet[3] << 8)) & 0xC000) >> 14;
 
-    byte source[] = {
-        packet[4],
-        packet[5],
-        packet[6],
-        packet[7]
-    };
-    memcpy(message.source, source, 4);
-
-    byte target[] = {
-        packet[8],
-        packet[9],
-        packet[10],
-        packet[11],
-        packet[12],
-        packet[13],
-        packet[14],
-        packet[15] 
-    };
-    memcpy(message.target, target, 8);
-
-    byte reserved[] = {
-        packet[16],
-        packet[17],
-        packet[18],
-        packet[19],
-        packet[20],
-        packet[21],
-    };
-    memcpy(message.reserved, reserved, 6);
+    memcpy(message.source, packet+4, 4);
+    memcpy(message.target, packet+8, 8);
+    memcpy(message.reserved, packet+16, 6);
 
     message.ack_required = (packet[22] & 0x02);
     message.res_required = (packet[22] & 0x01);
@@ -68,12 +42,9 @@ void Lifx::processPacket(byte *packet, int packetSize, LifxMessage &message) {
 
     message.type = packet[32] + (packet[33] << 8);
 
-    int i;
-    for (i = 36; i < packetSize; i++) {
-        message.payload[i - 36] = packet[i];
-    }
+    memcpy(message.payload, packet+36, packetSize);
 
-    message.payload_size = i;
+    message.payload_size = packetSize-36;
 }
 
 void Lifx::handleMessage(LifxMessage lifxMessage) {}
