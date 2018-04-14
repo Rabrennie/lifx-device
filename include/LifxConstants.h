@@ -6,6 +6,7 @@ typedef uint8_t byte;
 
 // settings
 static int const LIFX_PORT = 56700;
+static int const LIFX_PROTOCOL = 0x400;
 static int const LIFX_PACKET_HEADER_LENGTH = 36;
 static int const LIFX_PACKET_MAX_LENGTH = 128;
 

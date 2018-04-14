@@ -57,6 +57,22 @@ void Lifx::handleMessage(LifxMessage message)
     return;
   }
 
+  if (message.type == GET_SERVICE)
+  {
+    LifxMessage response = new LifxMessage();
+    response.type = STATE_SERVICE;
+    response.protocol = LIFX_PROTOCOL;
+    byte stateServiceData[] = {
+        0x01, //UDP
+        lowByte(LIFX_PORT),
+        highByte(LIFX_PORT),
+        0x00,
+        0x00};
+
+    memcpy(response.data, stateServiceData, sizeof(stateServiceData));
+    response.data_size = sizeof(stateServiceData);
+    this->sendMessage(response, true);
+  }
 }
 
 void Lifx::sendMessage(LifxMessage &message, bool broadcast)
