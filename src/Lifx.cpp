@@ -71,8 +71,8 @@ void processPacket(byte *packet, int packetSize, LifxMessage &message) {
 
     int i;
     for (i = 36; i < packetSize; i++) {
-        request.payload[i - 36] = packet[i];
+        message.payload[i - 36] = packet[i];
     }
 
-    request.payload_size = i;
+    message.payload_size = i;
 }
