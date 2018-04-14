@@ -11,8 +11,3 @@ void Lifx::begin() {
 void Lifx::handle() {
     // do other stuff
 }
-
-void Lifx::setColor() {
-    // do network stuff
-    this->device->setColor();
-}

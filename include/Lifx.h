@@ -2,6 +2,8 @@
 #define LIFX_HEADER
 
 #include "LifxDevice.h"
+#include "LifxMessage.h"
+#include "LifxConstants.h"
 
 class Lifx {
     public:
@@ -12,7 +14,8 @@ class Lifx {
     private:
         LifxDevice *device;
 
-        void setColor();
+        void sendMessage(LifxMessage message, bool broadcast);
+        void processPacket(byte *packet, int packetSize, LifxMessage &lifxMessage);
 };
 
 #endif
