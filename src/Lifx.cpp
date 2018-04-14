@@ -42,8 +42,7 @@ void Lifx::processPacket(byte *packet, int packetSize, LifxMessage &message) {
 
     message.type = packet[32] + (packet[33] << 8);
 
-    memcpy(message.payload, packet+36, packetSize);
-
+    memcpy(message.payload, packet+36, packetSize-36);
     message.payload_size = packetSize-36;
 }
 
