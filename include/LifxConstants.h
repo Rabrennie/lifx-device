@@ -1,6 +1,9 @@
 #ifndef LIFX_CONSTANTS_HEADER
 #define LIFX_CONSTANTS_HEADER
 
+#include <stdint.h>
+typedef uint8_t byte;
+
 // Device Message Types - https://lan.developer.lifx.com/docs/device-messages
 static byte const GET_SERVICE = 0x02;
 static byte const STATE_SERVICE = 0x03;
