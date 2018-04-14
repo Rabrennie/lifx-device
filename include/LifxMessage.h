@@ -3,6 +3,6 @@
 
 struct LifxMessage {
 
-}
+};
 
 #endif
