@@ -4,10 +4,7 @@ FROM ubuntu
 RUN apt-get update && apt-get install -y \
 g++ \
 make \
-cmake \
-libprotobuf-dev \
-libboost-all-dev \
-protobuf-compiler
+cmake
 
 # install g{test,mock} sources & put headers into /usr/include
 RUN apt-get update && apt-get install -y \
