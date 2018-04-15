@@ -5,8 +5,53 @@
 
 
 ## Limitations
+
 Lifx devices created through this library can not be added to your lifx cloud and cannot be claimed. This means that they will always show as Guest Devices in the lifx app.
 
+## Installation
+
+TODO
+
+## Usage example
+
+Basic usage
+
+```c++
+#include <ESP8266WiFi.h>
+#include "<Lifx.h>"
+
+const char* ssid = "**************";
+const char* password = "************";
+
+class MyDevice : public LifxDevice {
+    public:
+        MyDevice() {}
+        ~MyDevice() {}
+
+        // implement virtual methods
+};
+
+Lifx *lifx;
+
+void setup() {
+  WiFi.begin(ssid, password);
+
+  lifx = new Lifx(new MyDevice());
+
+  // Wait for connection
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+  }
+
+  lifx->begin();
+}
+
+void loop() {
+  lifx->handle();
+}
+```
+
+_For more examples and usage, please refer to the [Wiki][wiki]._
 
 ## Development setup
 
