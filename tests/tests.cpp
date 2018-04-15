@@ -4,11 +4,7 @@
 
 #include <gtest/gtest.h>
 
-TEST(LifxMessageHandler, parseMessage)
-{
-  LifxMessage message;
-
-  byte packet[49]{
+byte packet[49]{
       //size
       0x31, 0x00,
       //protocol, origin, tagged, addressable
@@ -32,49 +28,123 @@ TEST(LifxMessageHandler, parseMessage)
       //payload
       0x00, 0x55, 0x55, 0xFF, 0xFF, 0xFF, 0xFF, 0xAC, 0x0D, 0x00, 0x04, 0x00, 0x00};
 
+TEST(LifxMessageHandler, parseMessage_size)
+{
+  LifxMessage message;
+
   LifxMessageHandler::parseMessage(packet, 49, message);
-  EXPECT_EQ(message.size, 49);
+  ASSERT_EQ(message.size, 49);
+}
 
-  EXPECT_EQ(message.protocol, 1024);
-  EXPECT_EQ(message.origin, 0);
-  EXPECT_EQ(message.tagged, 1);
-  EXPECT_EQ(message.addressable, 1);
+TEST(LifxMessageHandler, parseMessage_protocol)
+{
+  LifxMessage message;
 
-  EXPECT_EQ(message.source[0], 0x01);
-  EXPECT_EQ(message.source[1], 0x02);
-  EXPECT_EQ(message.source[2], 0x03);
-  EXPECT_EQ(message.source[3], 0x04);
+  LifxMessageHandler::parseMessage(packet, 49, message);
+  ASSERT_EQ(message.protocol, 1024);
+}
 
-  EXPECT_EQ(message.target[0], 0x06);
-  EXPECT_EQ(message.target[1], 0x05);
-  EXPECT_EQ(message.target[2], 0x04);
-  EXPECT_EQ(message.target[3], 0x03);
-  EXPECT_EQ(message.target[4], 0x02);
-  EXPECT_EQ(message.target[5], 0x01);
-  EXPECT_EQ(message.target[6], 0x00);
-  EXPECT_EQ(message.target[7], 0x00);
+TEST(LifxMessageHandler, parseMessage_origin)
+{
+  LifxMessage message;
 
-  EXPECT_EQ(message.res_required, 1);
-  EXPECT_EQ(message.ack_required, 1);
+  LifxMessageHandler::parseMessage(packet, 49, message);
+  ASSERT_EQ(message.origin, 0);
+}
 
-  EXPECT_EQ(message.sequence, 0x55);
+TEST(LifxMessageHandler, parseMessage_tagged)
+{
+  LifxMessage message;
 
-  EXPECT_EQ(message.type, 0x66);
+  LifxMessageHandler::parseMessage(packet, 49, message);
+  ASSERT_EQ(message.tagged, 1);
+}
 
-  EXPECT_EQ(message.payload_size, 13);
-  EXPECT_EQ(message.payload[0], 0x00);
-  EXPECT_EQ(message.payload[1], 0x55);
-  EXPECT_EQ(message.payload[2], 0x55);
-  EXPECT_EQ(message.payload[3], 0xFF);
-  EXPECT_EQ(message.payload[4], 0xFF);
-  EXPECT_EQ(message.payload[5], 0xFF);
-  EXPECT_EQ(message.payload[6], 0xFF);
-  EXPECT_EQ(message.payload[7], 0xAC);
-  EXPECT_EQ(message.payload[8], 0x0D);
-  EXPECT_EQ(message.payload[9], 0x00);
-  EXPECT_EQ(message.payload[10], 0x04);
-  EXPECT_EQ(message.payload[11], 0x00);
-  EXPECT_EQ(message.payload[12], 0x00);
+TEST(LifxMessageHandler, parseMessage_addressable)
+{
+  LifxMessage message;
+
+  LifxMessageHandler::parseMessage(packet, 49, message);
+  ASSERT_EQ(message.addressable, 1);
+}
+
+TEST(LifxMessageHandler, parseMessage_source)
+{
+  LifxMessage message;
+
+  LifxMessageHandler::parseMessage(packet, 49, message);
+  ASSERT_EQ(message.source[0], 0x01);
+  ASSERT_EQ(message.source[1], 0x02);
+  ASSERT_EQ(message.source[2], 0x03);
+  ASSERT_EQ(message.source[3], 0x04);
+}
+
+TEST(LifxMessageHandler, parseMessage_target)
+{
+  LifxMessage message;
+
+  LifxMessageHandler::parseMessage(packet, 49, message);
+  ASSERT_EQ(message.target[0], 0x06);
+  ASSERT_EQ(message.target[1], 0x05);
+  ASSERT_EQ(message.target[2], 0x04);
+  ASSERT_EQ(message.target[3], 0x03);
+  ASSERT_EQ(message.target[4], 0x02);
+  ASSERT_EQ(message.target[5], 0x01);
+  ASSERT_EQ(message.target[6], 0x00);
+  ASSERT_EQ(message.target[7], 0x00);
+}
+
+TEST(LifxMessageHandler, parseMessage_res_required)
+{
+  LifxMessage message;
+
+  LifxMessageHandler::parseMessage(packet, 49, message);
+  ASSERT_EQ(message.res_required, 1);
+}
+
+TEST(LifxMessageHandler, parseMessage_ack_required)
+{
+  LifxMessage message;
+
+  LifxMessageHandler::parseMessage(packet, 49, message);
+  ASSERT_EQ(message.ack_required, 1);
+}
+
+TEST(LifxMessageHandler, parseMessage_sequence)
+{
+  LifxMessage message;
+
+  LifxMessageHandler::parseMessage(packet, 49, message);
+  ASSERT_EQ(message.sequence, 0x55);
+}
+
+TEST(LifxMessageHandler, parseMessage_type)
+{
+  LifxMessage message;
+
+  LifxMessageHandler::parseMessage(packet, 49, message);
+  ASSERT_EQ(message.type, 0x66);
+}
+
+TEST(LifxMessageHandler, parseMessage_payload)
+{
+  LifxMessage message;
+
+  LifxMessageHandler::parseMessage(packet, 49, message);
+  ASSERT_EQ(message.payload_size, 13);
+  ASSERT_EQ(message.payload[0], 0x00);
+  ASSERT_EQ(message.payload[1], 0x55);
+  ASSERT_EQ(message.payload[2], 0x55);
+  ASSERT_EQ(message.payload[3], 0xFF);
+  ASSERT_EQ(message.payload[4], 0xFF);
+  ASSERT_EQ(message.payload[5], 0xFF);
+  ASSERT_EQ(message.payload[6], 0xFF);
+  ASSERT_EQ(message.payload[7], 0xAC);
+  ASSERT_EQ(message.payload[8], 0x0D);
+  ASSERT_EQ(message.payload[9], 0x00);
+  ASSERT_EQ(message.payload[10], 0x04);
+  ASSERT_EQ(message.payload[11], 0x00);
+  ASSERT_EQ(message.payload[12], 0x00);
 }
 
 int main(int argc, char **argv)
