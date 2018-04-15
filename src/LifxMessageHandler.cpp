@@ -13,7 +13,7 @@ void LifxMessageHandler::parseMessage(byte *packet, int packetSize, LifxMessage 
   memcpy(message.target, packet + 8, 8);
   memcpy(message.reserved, packet + 16, 6);
 
-  message.ack_required = (packet[22] & 0x02);
+  message.ack_required = (packet[22] & 0x02) >> 0x01;
   message.res_required = (packet[22] & 0x01);
 
   message.sequence = packet[23];
