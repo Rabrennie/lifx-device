@@ -22,9 +22,7 @@ docker run -v repo-dir:/lifx lifx-device/test /bin/sh -c "cd /lifx/; cmake CMake
 * 0.0.1
     * Work in progress
 
-## Meta
-
-Rab Rennie – [@rennierab](https://twitter.com/rennierab)
+## LICENSE
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
