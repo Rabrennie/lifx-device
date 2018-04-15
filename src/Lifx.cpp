@@ -94,6 +94,24 @@ void Lifx::handleMessage(LifxMessage message)
     response.payload_size = sizeof(WifiVersionData);
     this->sendMessage(response, true);
   }
+
+  if (message.type == GET_HOST_FIRMWARE)
+  {
+    LifxMessage response;
+    response.type = STATE_HOST_FIRMWARE;
+    response.protocol = LIFX_PROTOCOL;
+    byte HostFirmwareData[] = {
+        0x00, 0xA6, 0xD4, 0x73, 0x1A, 0x21, 0xE0, 0x13, //build timestamp
+        0xe0, 0x25, 0x76, 0x45, 0x69, 0x81, 0x8b, 0x13, //install timestamp
+        lowByte(1),
+        highByte(1),
+        lowByte(2),
+        highByte(2)};
+
+    memcpy(response.payload, HostFirmwareData, sizeof(HostFirmwareData));
+    response.payload_size = sizeof(HostFirmwareData);
+    this->sendMessage(response, true);
+  }
 }
 
 // TODO: refactor
