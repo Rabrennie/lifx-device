@@ -235,10 +235,10 @@ void Lifx::sendMessage(LifxMessage &message, bool broadcast)
 
   // source
   unsigned char *source = (unsigned char *)&message.source;
-  Udp.write(source[0]);
-  Udp.write(source[1]);
-  Udp.write(source[2]);
-  Udp.write(source[3]);
+  Udp.write(lowByte(source[0]));
+  Udp.write(lowByte(source[1]));
+  Udp.write(lowByte(source[2]));
+  Udp.write(lowByte(source[3]));
 
   // target
   Udp.write(this->device->getMacAddress(), 8);
@@ -251,9 +251,9 @@ void Lifx::sendMessage(LifxMessage &message, bool broadcast)
   Udp.write(lowByte(0x00));
 
   // ack and res
-  Udp.write(message.ack_required + message.res_required);
+  Udp.write(lowByte(message.ack_required + message.res_required));
 
-  Udp.write(message.sequence);
+  Udp.write(lowByte(message.sequence));
 
   Udp.write(lowByte(0x00));
   Udp.write(lowByte(0x00));
@@ -266,6 +266,9 @@ void Lifx::sendMessage(LifxMessage &message, bool broadcast)
 
   Udp.write(lowByte(message.type));
   Udp.write(highByte(message.type));
+
+  Udp.write(lowByte(0x00));
+  Udp.write(lowByte(0x00));
 
   for (int i = 0; i < message.payload_size; i++)
   {
