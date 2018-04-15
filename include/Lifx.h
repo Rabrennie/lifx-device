@@ -18,7 +18,6 @@ class Lifx {
         WiFiUDP Udp;
 
         void sendMessage(LifxMessage &message, bool broadcast);
-        void processPacket(byte *packet, int packetSize, LifxMessage &message);
         void handleMessage(LifxMessage lifxMessage);
 };
 
