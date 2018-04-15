@@ -53,4 +53,9 @@ static byte const STATE_GROUP = 0x35;
 static byte const ECHO_REQUEST = 0x3A;
 static byte const ECHO_RESPONSE = 0x3B;
 
+// light messages
+
+static byte const GET = 0x65;
+static byte const STATE = 0x6B;
+
 #endif
