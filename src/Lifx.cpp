@@ -73,7 +73,7 @@ void Lifx::handleMessage(LifxMessage message)
 
     memcpy(response.payload, stateServiceData, sizeof(stateServiceData));
     response.payload_size = sizeof(stateServiceData);
-    this->sendMessage(response, true);
+    this->sendMessage(response, message.tagged == 1);
   }
 
   if (message.type == GET_WIFI_FIRMWARE)
@@ -92,7 +92,7 @@ void Lifx::handleMessage(LifxMessage message)
 
     memcpy(response.payload, WifiVersionData, sizeof(WifiVersionData));
     response.payload_size = sizeof(WifiVersionData);
-    this->sendMessage(response, true);
+    this->sendMessage(response, message.tagged == 1);
   }
 
   if (message.type == GET_HOST_FIRMWARE)
@@ -110,7 +110,31 @@ void Lifx::handleMessage(LifxMessage message)
 
     memcpy(response.payload, HostFirmwareData, sizeof(HostFirmwareData));
     response.payload_size = sizeof(HostFirmwareData);
-    this->sendMessage(response, true);
+    this->sendMessage(response, message.tagged == 1);
+  }
+
+  if (message.type == GET_VERSION)
+  {
+    LifxMessage response;
+    response.type = STATE_VERSION;
+    response.protocol = LIFX_PROTOCOL;
+    byte VersionData[] = {
+        lowByte(1),
+        highByte(1),
+        0x00,
+        0x00,
+        lowByte(1),
+        highByte(1),
+        0x00,
+        0x00,
+        lowByte(1),
+        highByte(1),
+        0x00,
+        0x00};
+
+    memcpy(response.payload, VersionData, sizeof(VersionData));
+    response.payload_size = sizeof(VersionData);
+    this->sendMessage(response, message.tagged == 1);
   }
 
   if (message.type == GET)
@@ -184,7 +208,7 @@ void Lifx::handleMessage(LifxMessage message)
 
     memcpy(response.payload, StateData, sizeof(StateData));
     response.payload_size = sizeof(StateData);
-    this->sendMessage(response, true);
+    this->sendMessage(response, message.tagged == 1);
   }
 }
 
