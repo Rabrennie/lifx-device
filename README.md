@@ -51,8 +51,6 @@ void loop() {
 }
 ```
 
-_For more examples and usage, please refer to the [Wiki][wiki]._
-
 ## Development setup
 
 Tests are run using docker.
