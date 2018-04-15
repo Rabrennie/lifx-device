@@ -112,6 +112,80 @@ void Lifx::handleMessage(LifxMessage message)
     response.payload_size = sizeof(HostFirmwareData);
     this->sendMessage(response, true);
   }
+
+  if (message.type == GET)
+  {
+    char label[32] = "arduino light";
+
+    LifxMessage response;
+    response.type = STATE;
+    response.protocol = LIFX_PROTOCOL;
+    byte StateData[] = {
+        // HSBK
+        lowByte(0x00), //hue
+        highByte(0x00),
+        lowByte(0x00), //saturation
+        highByte(0x00),
+        lowByte(0x00), //brightness
+        highByte(0x00),
+        lowByte(0x00), //kelvin
+        highByte(0x00),
+
+        //reserved
+        lowByte(0x00),
+        highByte(0x00),
+
+        //power
+        lowByte(0x00),
+        highByte(0x00),
+
+        // label
+        lowByte(label[0]),
+        lowByte(label[1]),
+        lowByte(label[2]),
+        lowByte(label[3]),
+        lowByte(label[4]),
+        lowByte(label[5]),
+        lowByte(label[6]),
+        lowByte(label[7]),
+        lowByte(label[8]),
+        lowByte(label[9]),
+        lowByte(label[10]),
+        lowByte(label[11]),
+        lowByte(label[12]),
+        lowByte(label[13]),
+        lowByte(label[14]),
+        lowByte(label[15]),
+        lowByte(label[16]),
+        lowByte(label[17]),
+        lowByte(label[18]),
+        lowByte(label[19]),
+        lowByte(label[20]),
+        lowByte(label[21]),
+        lowByte(label[22]),
+        lowByte(label[23]),
+        lowByte(label[24]),
+        lowByte(label[25]),
+        lowByte(label[26]),
+        lowByte(label[27]),
+        lowByte(label[28]),
+        lowByte(label[29]),
+        lowByte(label[30]),
+        lowByte(label[31]),
+        //reserved
+        lowByte(0x00),
+        lowByte(0x00),
+        lowByte(0x00),
+        lowByte(0x00),
+        lowByte(0x00),
+        lowByte(0x00),
+        lowByte(0x00),
+        lowByte(0x00)};
+
+    memcpy(response.payload, StateData, sizeof(StateData));
+    response.payload_size = sizeof(StateData);
+    this->sendMessage(response, true);
+  }
 }
 
 // TODO: refactor
