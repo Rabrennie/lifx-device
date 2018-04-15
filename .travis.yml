@@ -7,4 +7,8 @@ services:
 
 before_install:
 - docker build . -t lifx-device/test
+
+script:
 - docker run -v $TRAVIS_BUILD_DIR:/lifx lifx-device/test /bin/sh -c "cd /lifx/; cmake CMakeLists.txt; make; ./runTests"
+
+
