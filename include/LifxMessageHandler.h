@@ -10,6 +10,7 @@ class LifxMessageHandler {
     public:
         LifxMessageHandler();
         static void parseMessage(byte *packet, int packetSize, LifxMessage &message);
+        static void buildPacketBuffer(byte *packetBuffer, LifxMessage message);
 };
 
 #endif

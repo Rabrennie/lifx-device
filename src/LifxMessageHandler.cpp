@@ -23,3 +23,8 @@ void LifxMessageHandler::parseMessage(byte *packet, int packetSize, LifxMessage 
   message.payload_size = packetSize - LIFX_PACKET_HEADER_LENGTH;
   memcpy(message.payload, packet + LIFX_PACKET_HEADER_LENGTH, message.payload_size);
 }
+
+void LifxMessageHandler::buildPacketBuffer(byte *packetBuffer, LifxMessage message)
+{
+
+}

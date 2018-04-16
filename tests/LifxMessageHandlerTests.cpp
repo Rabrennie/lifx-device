@@ -148,8 +148,7 @@ TEST(LifxMessageHandler, parseMessage_payload)
 
 TEST(LifxMessageHandler, buildPacketBuffer)
 {
-  LifxMessage * message;
-  message->protocol = 1234;
-
-  LifxMessageHandler::buildPacketBuffer(message);
+  LifxMessage message;
+  byte payloadBuffer[123];
+  LifxMessageHandler::buildPacketBuffer(payloadBuffer, message);
 }
